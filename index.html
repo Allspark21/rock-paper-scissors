@@ -7,7 +7,56 @@
 </head>
 <body>
     <script>
+
+        let humanScore = 0;
+        let computerScore = 0;
+
+        function getComputerChoice() {
+            let number = Math.floor(Math.random() * 3) + 1;
+            
+            if(number==1){
+                return "rock";
+            }else if(number==2){
+                return "paper";
+            }else{
+                return "scissors";
+            }
+        }
+
+        function getHumanChoice() {
+            const choice = prompt("Rock?Paper?Scissors?");
+
+            return choice.toLowerCase();
+        }
+
         
+        function playRound() {
+            let a = getHumanChoice();
+            let b = getComputerChoice();
+            
+            if(a == "rock" && b == "paper"){
+                return "You Lose! Paper beats Rock";
+            }else if(a == "rock" && b =="scissors"){
+                return "You Win! Paper beats Scissors";
+            }else if(a == "rock" && b =="rock"){
+                return "Its a tie";
+            }else if(a == "paper" && b =="rock"){
+                return "You Win! Paper beats Rock";
+            }else if(a == "paper" && b =="scissors"){
+                return "You Lose! Scissors beat Paper";
+            }else if(a == "paper" && b =="paper"){
+                return "Its a tie";
+            }else if(a == "scissors" && b =="rock"){
+                return "You Lose! Rock beat Scissors";
+            }else if(a == "scissors" && b =="paper"){
+                return "You win! Scissors beat Paper";
+            }else {
+                return "Its a tie";
+            }
+
+        }
+
+        console.log(playRound());
     </script>
 </body>
 </html>
