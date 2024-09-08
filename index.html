@@ -8,6 +8,8 @@
 <body>
     <script>
 
+        console.log("Welcome to Rock,Paper,Scissors Game!\nYou will fight with the computer and the first to five wins!" );
+
         let humanScore = 0;
         let computerScore = 0;
 
@@ -35,28 +37,54 @@
             let b = getComputerChoice();
             
             if(a == "rock" && b == "paper"){
-                return "You Lose! Paper beats Rock";
+                computerScore++;
+                return console.log("You Lose! Paper beats Rock");
             }else if(a == "rock" && b =="scissors"){
-                return "You Win! Paper beats Scissors";
+                humanScore++;
+                return console.log("You Win! Paper beats Scissors");
             }else if(a == "rock" && b =="rock"){
-                return "Its a tie";
+                return console.log("Its a tie");
             }else if(a == "paper" && b =="rock"){
-                return "You Win! Paper beats Rock";
+                humanScore++
+                return console.log("You Win! Paper beats Rock");
             }else if(a == "paper" && b =="scissors"){
-                return "You Lose! Scissors beat Paper";
+                computerScore++
+                return console.log("You Lose! Scissors beat Paper");
             }else if(a == "paper" && b =="paper"){
-                return "Its a tie";
+                return console.log("Its a tie");
             }else if(a == "scissors" && b =="rock"){
-                return "You Lose! Rock beat Scissors";
+                computerScore++
+                return console.log("You Lose! Rock beat Scissors");
             }else if(a == "scissors" && b =="paper"){
-                return "You win! Scissors beat Paper";
+                humanScore++
+                return console.log("You win! Scissors beat Paper");
             }else {
-                return "Its a tie";
+                return console.log("Its a tie");
             }
 
         }
 
-        console.log(playRound());
+        function playGame() {
+            humanScore = 0;
+            computerScore = 0;
+
+            for (let i = 0; i < 100; i++) {
+                playRound(); 
+
+                console.log("Your score " + humanScore + " Computer Score " + computerScore);
+
+                if(humanScore == 5){
+                return "You won!";
+                }else if(computerScore == 5){
+                return "The computer won!";
+                }               
+            }
+
+            
+        }
+
+        console.log(playGame());
+
     </script>
 </body>
 </html>
