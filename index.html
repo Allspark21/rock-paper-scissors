@@ -3,88 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Rock, Paper, Scissors Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        .choices button {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        .scoreboard, .message {
+            margin: 20px;
+            font-size: 18px;
+        }
+    </style>
 </head>
 <body>
+
+    <h1>Rock, Paper, Scissors Game</h1>
+
+    <div class="choices">
+        <button id="rock">Rock</button>
+        <button id="paper">Paper</button>
+        <button id="scissors">Scissors</button>
+        <button id="quit">Quit</button>
+        <button id="reset">Reset</button>
+    </div>
+
+    <div class="scoreboard">
+        <p>Your Score: <span id="humanScore">0</span></p>
+        <p>Computer Score: <span id="computerScore">0</span></p>
+    </div>
+
+    <div class="message">
+        <p class="result" id="resultMessage">Make your move!</p>
+    </div>
+
     <script>
-
-        console.log("Welcome to Rock,Paper,Scissors Game!\nYou will fight with the computer and the first to five wins!" );
-
         let humanScore = 0;
         let computerScore = 0;
 
+        const choices = ["rock", "paper", "scissors"];
+        const resultMessage = document.getElementById("resultMessage");
+        const humanScoreDisplay = document.getElementById("humanScore");
+        const computerScoreDisplay = document.getElementById("computerScore");
+
+        const winConditions = {
+            rock: "scissors",
+            paper: "rock",
+            scissors: "paper"
+        };
+
         function getComputerChoice() {
-            let number = Math.floor(Math.random() * 3) + 1;
-            
-            if(number==1){
-                return "rock";
-            }else if(number==2){
-                return "paper";
-            }else{
-                return "scissors";
-            }
+            return choices[Math.floor(Math.random() * choices.length)];
         }
 
-        function getHumanChoice() {
-            const choice = prompt("Rock?Paper?Scissors?");
-
-            return choice.toLowerCase();
+        function updateScores() {
+            humanScoreDisplay.textContent = humanScore;
+            computerScoreDisplay.textContent = computerScore;
         }
 
-        
-        function playRound() {
-            let a = getHumanChoice();
-            let b = getComputerChoice();
-            
-            if(a == "rock" && b == "paper"){
-                computerScore++;
-                return console.log("You Lose! Paper beats Rock");
-            }else if(a == "rock" && b =="scissors"){
+        function displayResult(message) {
+            resultMessage.textContent = message;
+        }
+
+        function playRound(humanChoice) {
+            const computerChoice = getComputerChoice();
+            let result;
+
+            if (humanChoice === computerChoice) {
+                result = `It's a tie! Both chose ${humanChoice}.`;
+            } else if (winConditions[humanChoice] === computerChoice) {
                 humanScore++;
-                return console.log("You Win! Paper beats Scissors");
-            }else if(a == "rock" && b =="rock"){
-                return console.log("Its a tie");
-            }else if(a == "paper" && b =="rock"){
-                humanScore++
-                return console.log("You Win! Paper beats Rock");
-            }else if(a == "paper" && b =="scissors"){
-                computerScore++
-                return console.log("You Lose! Scissors beat Paper");
-            }else if(a == "paper" && b =="paper"){
-                return console.log("Its a tie");
-            }else if(a == "scissors" && b =="rock"){
-                computerScore++
-                return console.log("You Lose! Rock beat Scissors");
-            }else if(a == "scissors" && b =="paper"){
-                humanScore++
-                return console.log("You win! Scissors beat Paper");
-            }else {
-                return console.log("Its a tie");
+                result = `You win! ${humanChoice} beats ${computerChoice}.`;
+            } else {
+                computerScore++;
+                result = `You lose! ${computerChoice} beats ${humanChoice}.`;
             }
 
+            updateScores();
+            displayResult(result);
+
+            if (humanScore === 5) {
+                displayResult("Congratulations! You won the game!");
+                disableGame();
+            } else if (computerScore === 5) {
+                displayResult("Game over! The computer won.");
+                disableGame();
+            }
         }
 
-        function playGame() {
+        function resetGame() {
             humanScore = 0;
             computerScore = 0;
-
-            for (let i = 0; i < 100; i++) {
-                playRound(); 
-
-                console.log("Your score " + humanScore + " Computer Score " + computerScore);
-
-                if(humanScore == 5){
-                return "You won!";
-                }else if(computerScore == 5){
-                return "The computer won!";
-                }               
-            }
-
-            
+            updateScores();
+            displayResult("Make your move!");
+            enableGame();
         }
 
-        console.log(playGame());
+        function toggleButtons(disable) {
+            document.getElementById("rock").disabled = disable;
+            document.getElementById("paper").disabled = disable;
+            document.getElementById("scissors").disabled = disable;
+        }
 
+        function disableGame() {
+            toggleButtons(true);
+        }
+
+        function enableGame() {
+            toggleButtons(false);
+        }
+
+        document.getElementById("rock").addEventListener("click", () => playRound("rock"));
+        document.getElementById("paper").addEventListener("click", () => playRound("paper"));
+        document.getElementById("scissors").addEventListener("click", () => playRound("scissors"));
+        document.getElementById("quit").addEventListener("click", () => {
+            displayResult("You quit the game!");
+            disableGame();
+        });
+        document.getElementById("reset").addEventListener("click", resetGame);
     </script>
+
 </body>
 </html>
